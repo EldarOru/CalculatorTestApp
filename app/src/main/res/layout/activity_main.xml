@@ -109,8 +109,9 @@
             android:id="@+id/button_pow" />
         <Button
             style="@style/buttonOperator"
-            android:text="+"
-            android:id="@+id/button_plus" />
+            android:text="*"
+            android:id="@+id/button_multiply" />
+
     </LinearLayout>
     <LinearLayout
         style="@style/buttonRow">
@@ -147,8 +148,9 @@
             android:id="@+id/button_six" />
         <Button
             style="@style/buttonOperator"
-            android:text="*"
-            android:id="@+id/button_multiply" />
+            android:text="+"
+            android:id="@+id/button_plus" />
+
     </LinearLayout>
     <LinearLayout
         style="@style/buttonRow">

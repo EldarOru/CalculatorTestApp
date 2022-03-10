@@ -41,6 +41,7 @@ class MainActivityViewModel(private val addSymbolUseCase: AddSymbolUseCase,
             addSymbolUseCase.invoke(symbol)
             return
         }
+
         if (canAddOperation){
             addSymbolUseCase.invoke(symbol)
             canAddOperation = false
@@ -64,7 +65,7 @@ class MainActivityViewModel(private val addSymbolUseCase: AddSymbolUseCase,
     }
 
     fun calculate(){
-        calculateUseCase.invoke()
+        problemLiveData.value?.let { calculateUseCase.invoke(it) }
     }
 
     fun memorySave(string: String) {

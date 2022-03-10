@@ -1,80 +1,21 @@
-package com.example.calculatortestapp.data
+package com.example.calculatortestapp
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.example.calculatortestapp.data.CalRepositoryImpl
 import com.example.calculatortestapp.domain.CalRepository
 import kotlin.math.pow
 
-object CalRepositoryImpl: CalRepository {
+object FakeCalRepository {
 
-    private val problemLiveData = MutableLiveData<String>()
-
-    private val answerLiveData = MutableLiveData<String>()
-
-    private val memoryNumber = MutableLiveData<Float>()
-
-    init {
-        memoryNumber.value = 0.0f
-        problemLiveData.value = ""
-        answerLiveData.value = ""
-    }
-
-    override fun cleanData() {
-        problemLiveData.value = ""
-        answerLiveData.value = ""
-    }
-
-    override fun deleteLast() {
-        if (problemLiveData.value?.isNotEmpty() == true) {
-            problemLiveData.value = problemLiveData.value?.dropLast(1)
-        }
-    }
-
-    override fun calculate(str: String): String {
+    fun calculate(str: String): String {
         var parsedProblem = parseProblem(str)
 
-        /*
-        while (parsedProblem.contains('(') && parsedProblem.contains(')')){
-            parsedProblem = calculateBrackets(parsedProblem)
-        }
-
-         */
         val parsedDiv = timesDivisionCalculate(parsedProblem)
-
-        answerLiveData.value = addSubtractCalculate(parsedDiv).toString()
         return addSubtractCalculate(parsedDiv).toString()
 
     }
 
-    override fun addSymbol(string: String) {
-        problemLiveData.value += string
-    }
-
-    override fun memorySave(number: Float) {
-        memoryNumber.value = number
-    }
-
-    override fun memoryRead() {
-        answerLiveData.value = memoryNumber.value.toString()
-    }
-
-    override fun memoryClean() {
-        memoryNumber.value = 0.0f
-    }
-
-    override fun memoryPlus() {
-        memoryNumber.value = memoryNumber.value?.plus(answerLiveData.value!!.toFloat())
-    }
-
-    override fun memoryMinus() {
-        memoryNumber.value = memoryNumber.value?.minus(answerLiveData.value!!.toFloat())
-    }
-
-    override fun getProblemLiveData(): MutableLiveData<String> = problemLiveData
-
-    override fun getAnswerLiveData(): MutableLiveData<String> = answerLiveData
-
-    /*
     private fun calculateBrackets(list: MutableList<Any>): MutableList<Any>{
         val data = list
         var opBracket = 0
@@ -84,16 +25,12 @@ object CalRepositoryImpl: CalRepository {
             if (data[i] == ')') endBracket = i
         }
         var brackets = data.subList(opBracket + 1, endBracket)
-
         brackets = timesDivisionCalculate(brackets)
-
-        val number = addSubtractCalculate(brackets)
+        val number = addSubtractCalculate(brackets).toString()
         data.subList(opBracket, endBracket + 1).clear()
         data.add(opBracket, number)
         return data
     }
-
-     */
 
     private fun parseProblem(str: String): MutableList<Any>
     {
@@ -107,40 +44,6 @@ object CalRepositoryImpl: CalRepository {
 
         var currentDigit = ""
         for(character in data.indices) {
-            /*
-            if (character > 0 && data[character] == '-'){
-                if (data[character-1] == '^'){
-                    beginWithMinus = true
-                    continue
-                }
-            }
-
-
-
-
-            if (data[character] == '('){
-                list.add(data[character])
-                continue
-            }
-            if (data[character] == ')'){
-                list.add(currentDigit.toFloat())
-                list.add(data[character])
-                currentDigit = ""
-                continue
-            }
-            if (character > 0) {
-                if (data[character - 1] == ')') {
-                    list.add(data[character])
-                    currentDigit = ""
-                    continue
-                }else if (data[character - 1] == '(' && data[character] == '-'){
-                    beginWithMinus = true
-                    Log.d("MINUS1", beginWithMinus.toString())
-                    continue
-                }
-            }
-
-             */
             if(data[character].isDigit() || data[character] == '.')
                 currentDigit += data[character]
             else {
@@ -154,13 +57,14 @@ object CalRepositoryImpl: CalRepository {
                 currentDigit = ""
             }
         }
+
         if(currentDigit != "") {
             if (beginWithMinus) {
                 list.add(-currentDigit.toFloat())
             }else list.add(currentDigit.toFloat())
         }
 
-        return if (list[list.size-1] is Number){
+        return if (list[list.size-1] is Number ){
             list
         }else{
             list.removeLast()
@@ -236,6 +140,7 @@ object CalRepositoryImpl: CalRepository {
             if(i > restartIndex)
                 newList.add(passedList[i])
         }
+
         return newList
     }
 

@@ -8,7 +8,7 @@ interface CalRepository {
 
     fun deleteLast()
 
-    fun calculate()
+    fun calculate(string: String): String
 
     fun addSymbol(string: String)
 
