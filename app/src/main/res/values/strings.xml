@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">CalculatorTestApp</string>
+    <string name="m">m+</string>
+    <string name="m_minus">m-</string>
+    <string name="mc">mc</string>
+    <string name="mr">mr</string>
+    <string name="ms">ms</string>
+</resources>
