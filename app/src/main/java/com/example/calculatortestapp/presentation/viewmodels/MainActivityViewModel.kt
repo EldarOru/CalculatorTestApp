@@ -56,16 +56,33 @@ class MainActivityViewModel(private val addSymbolUseCase: AddSymbolUseCase,
     }
 
     fun deleteLast(){
-        canAddOperation = true
-        canAddDecimal = true
+        if (problemLiveData.value!!.isNotEmpty()) {
+            when {
+                problemLiveData.value?.last() == '.' -> {
+
+                }
+                setOfOperators.contains(problemLiveData.value?.last()) -> {
+                    canAddOperation = true
+                }
+                else -> {
+                    canAddOperation = false
+                    canAddDecimal = true
+                }
+            }
+        }
         deleteLastUseCase.invoke()
         if (problemLiveData.value!!.isEmpty()){
             canAddOperation = false
+            canAddDecimal = true
         }
     }
 
-    fun calculate(){
-        problemLiveData.value?.let { calculateUseCase.invoke(it) }
+    fun calculate(string: String){
+        try {
+            answerLiveData.value = calculateUseCase.invoke(string)
+        }catch (ex: Exception){
+            answerLiveData.value = "Error"
+        }
     }
 
     fun memorySave(string: String) {
@@ -90,5 +107,9 @@ class MainActivityViewModel(private val addSymbolUseCase: AddSymbolUseCase,
 
     fun memoryMinus() {
         memoryMinusUseCase.invoke()
+    }
+
+    companion object{
+        val setOfOperators = hashSetOf('*', '/', '+', '-', '^')
     }
 }

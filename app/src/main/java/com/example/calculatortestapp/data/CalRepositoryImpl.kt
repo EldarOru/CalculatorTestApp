@@ -1,6 +1,5 @@
 package com.example.calculatortestapp.data
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.calculatortestapp.domain.CalRepository
 import kotlin.math.pow
@@ -30,18 +29,11 @@ object CalRepositoryImpl: CalRepository {
         }
     }
 
-    override fun calculate(str: String): String {
-        var parsedProblem = parseProblem(str)
+    override fun calculate(string: String): String {
+        val parsedProblem = parseProblem(string)
 
-        /*
-        while (parsedProblem.contains('(') && parsedProblem.contains(')')){
-            parsedProblem = calculateBrackets(parsedProblem)
-        }
-
-         */
         val parsedDiv = timesDivisionCalculate(parsedProblem)
 
-        answerLiveData.value = addSubtractCalculate(parsedDiv).toString()
         return addSubtractCalculate(parsedDiv).toString()
 
     }
@@ -74,27 +66,6 @@ object CalRepositoryImpl: CalRepository {
 
     override fun getAnswerLiveData(): MutableLiveData<String> = answerLiveData
 
-    /*
-    private fun calculateBrackets(list: MutableList<Any>): MutableList<Any>{
-        val data = list
-        var opBracket = 0
-        var endBracket = 0
-        for (i in 0 until data.size){
-            if (data[i] == '(') opBracket = i
-            if (data[i] == ')') endBracket = i
-        }
-        var brackets = data.subList(opBracket + 1, endBracket)
-
-        brackets = timesDivisionCalculate(brackets)
-
-        val number = addSubtractCalculate(brackets)
-        data.subList(opBracket, endBracket + 1).clear()
-        data.add(opBracket, number)
-        return data
-    }
-
-     */
-
     private fun parseProblem(str: String): MutableList<Any>
     {
         var data = str
@@ -107,40 +78,7 @@ object CalRepositoryImpl: CalRepository {
 
         var currentDigit = ""
         for(character in data.indices) {
-            /*
-            if (character > 0 && data[character] == '-'){
-                if (data[character-1] == '^'){
-                    beginWithMinus = true
-                    continue
-                }
-            }
 
-
-
-
-            if (data[character] == '('){
-                list.add(data[character])
-                continue
-            }
-            if (data[character] == ')'){
-                list.add(currentDigit.toFloat())
-                list.add(data[character])
-                currentDigit = ""
-                continue
-            }
-            if (character > 0) {
-                if (data[character - 1] == ')') {
-                    list.add(data[character])
-                    currentDigit = ""
-                    continue
-                }else if (data[character - 1] == '(' && data[character] == '-'){
-                    beginWithMinus = true
-                    Log.d("MINUS1", beginWithMinus.toString())
-                    continue
-                }
-            }
-
-             */
             if(data[character].isDigit() || data[character] == '.')
                 currentDigit += data[character]
             else {

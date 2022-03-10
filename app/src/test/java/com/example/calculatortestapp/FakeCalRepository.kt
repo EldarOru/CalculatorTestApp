@@ -16,22 +16,6 @@ object FakeCalRepository {
 
     }
 
-    private fun calculateBrackets(list: MutableList<Any>): MutableList<Any>{
-        val data = list
-        var opBracket = 0
-        var endBracket = 0
-        for (i in 0 until data.size){
-            if (data[i] == '(') opBracket = i
-            if (data[i] == ')') endBracket = i
-        }
-        var brackets = data.subList(opBracket + 1, endBracket)
-        brackets = timesDivisionCalculate(brackets)
-        val number = addSubtractCalculate(brackets).toString()
-        data.subList(opBracket, endBracket + 1).clear()
-        data.add(opBracket, number)
-        return data
-    }
-
     private fun parseProblem(str: String): MutableList<Any>
     {
         var data = str

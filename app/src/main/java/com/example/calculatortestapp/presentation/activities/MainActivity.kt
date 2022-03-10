@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
             buttonClean.setOnClickListener { mainActivityViewModel.cleanEverything() }
             buttonDeleteLast.setOnClickListener { mainActivityViewModel.deleteLast() }
             buttonResult.setOnClickListener {
-                mainActivityViewModel.calculate()
+                mainActivityViewModel.calculate(mainActivityViewModel.problemLiveData.value!!)
             }
             buttonMc.setOnClickListener { mainActivityViewModel.memoryClean() }
             buttonMr.setOnClickListener { mainActivityViewModel.memoryRead() }
